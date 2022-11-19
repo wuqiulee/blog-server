@@ -4,7 +4,7 @@ const createSuccess = (ctx, data) => {
   ctx.status = 200;
   ctx.body = {
     ...(data && { data }),
-    code: 200,
+    code: 0,
     message: "success~",
   };
 };

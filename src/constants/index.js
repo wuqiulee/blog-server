@@ -4,6 +4,7 @@ const UNAUTHORIZATION = "UNAUTHORIZATION";
 const UNPERMISSION = "unpermission";
 const CATEGORY_ALREADY_EXISTS = "Category_already_exists";
 
+// 错误信息
 const ErrorMessage = {
   [NAME_OR_PASSWORD_IS_REQUIRED]: "用户名和者密码不能为空~",
   [USER_OR_PASSWORD_ERROR]: "用户名或密码错误~",
@@ -27,6 +28,12 @@ const ErrorCode = {
   [CATEGORY_ALREADY_EXISTS]: 1001,
 };
 
+// 角色权限
+const Role = {
+  Admin: 0,
+  NormalUser: 1,
+};
+
 module.exports = {
   NAME_OR_PASSWORD_IS_REQUIRED,
   USER_OR_PASSWORD_ERROR,
@@ -36,4 +43,5 @@ module.exports = {
   ErrorMessage,
   ErrorStatus,
   ErrorCode,
+  Role,
 };

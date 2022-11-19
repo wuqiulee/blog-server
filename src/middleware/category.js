@@ -12,7 +12,7 @@ const verifyCategory = async (ctx, next) => {
     }
     await next();
   } catch (err) {
-    console.log(err, "查询标签失败");
+    console.log(err, "查询分类失败");
     ctx.app.emit("error", err, ctx);
   }
 };

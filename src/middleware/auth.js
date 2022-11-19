@@ -4,6 +4,7 @@ const {
   USER_OR_PASSWORD_ERROR,
   UNPERMISSION,
   UNAUTHORIZATION,
+  Role,
 } = require("../constants");
 const { getUserByName } = require("../service/user");
 const { md5password } = require("../utils");
@@ -44,11 +45,16 @@ const verifyAuth = async (ctx, next) => {
   }
   const token = authorization.replace("Bearer ", "");
 
-  // .验证token
   try {
+    // 验证oken
     const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ["RS256"],
     });
+    // 非管理员不具备操作权限
+    if (result?.role !== Role.Admin) {
+      const error = new Error(UNPERMISSION);
+      return ctx.app.emit("error", error, ctx);
+    }
     ctx.user = result;
     await next();
   } catch (err) {

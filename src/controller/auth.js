@@ -5,7 +5,7 @@ const { createSuccess } = require("../utils");
 class AuthController {
   async login(ctx, next) {
     const { user, role, password } = ctx.user;
-    const token = jwt.sign({ user, password }, PRIVATE_KEY, {
+    const token = jwt.sign({ user, password, role }, PRIVATE_KEY, {
       expiresIn: "7d",
       algorithm: "RS256",
     });
