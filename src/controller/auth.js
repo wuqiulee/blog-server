@@ -6,7 +6,7 @@ class AuthController {
   async login(ctx, next) {
     const { user, role, password } = ctx.user;
     const token = jwt.sign({ user, password }, PRIVATE_KEY, {
-      expiresIn: 60 * 60 * 24,
+      expiresIn: "7d",
       algorithm: "RS256",
     });
     createSuccess(ctx, { user, role, token });

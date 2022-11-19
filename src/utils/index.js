@@ -1,19 +1,19 @@
 const crypto = require("crypto");
-const { ErrorMessage, ErrorStatus } = require("../constants");
+const { ErrorMessage, ErrorStatus, ErrorCode } = require("../constants");
 const createSuccess = (ctx, data) => {
   ctx.status = 200;
   ctx.body = {
-    data,
+    ...(data && { data }),
     code: 200,
     message: "success~",
   };
 };
 
 const createError = (error, ctx) => {
-  ctx.status = ErrorStatus[error.message];
+  ctx.status = ErrorStatus[error.message] || 500;
   ctx.body = {
-    code: ErrorStatus[error.message],
-    message: ErrorMessage[error.message],
+    code: ErrorCode[error.message] || -1,
+    message: ErrorMessage[error.message] || error.message,
   };
 };
 

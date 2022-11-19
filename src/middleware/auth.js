@@ -46,7 +46,7 @@ const verifyAuth = async (ctx, next) => {
 
   // .验证token
   try {
-    const result = jwt.verify(token, "PUBLIC_KEY", {
+    const result = jwt.verify(token, PUBLIC_KEY, {
       algorithms: ["RS256"],
     });
     ctx.user = result;
