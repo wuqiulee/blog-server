@@ -22,7 +22,7 @@ class CategoryController {
       const res = await categoryService.getList(pageNum, pageSize);
       createSuccess(ctx, res);
     } catch (err) {
-      console.log(err, "获取所有分类失败");
+      console.log(err, "获取分类列表失败");
       ctx.app.emit("error", err, ctx);
     }
   }
