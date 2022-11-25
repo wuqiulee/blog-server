@@ -1,6 +1,6 @@
 const connection = require("../mysql");
 
-class categoryService {
+class CategoryService {
   // 创建分类
   async create(name, user) {
     const statement = `INSERT INTO category (name, creator) VALUES (?, ?);`;
@@ -16,7 +16,7 @@ class categoryService {
   }
 
   // 获取分类列表
-  async getList(pageNum, pageSize) {
+  async getList(pageNum = "1", pageSize = "100") {
     const offset = String((pageNum - 1) * pageSize);
     const statement = `SELECT JSON_ARRAYAGG(JSON_OBJECT('id', category.id, 'name', category.name, 'createTime', category.createAt, 'updateTime', category.updateAt)) AS result, COUNT(*) AS total FROM category LIMIT ?, ?;`;
     const [result] = await connection.execute(statement, [offset, pageSize]);
@@ -24,4 +24,4 @@ class categoryService {
   }
 }
 
-module.exports = new categoryService();
+module.exports = new CategoryService();
