@@ -18,8 +18,7 @@ class TagController {
   // 获取标签列表
   async getList(ctx, next) {
     try {
-      const { pageNum, pageSize } = ctx.request.query;
-      const res = await tagService.getList(pageNum, pageSize);
+      const res = await tagService.getList();
       createSuccess(ctx, res);
     } catch (err) {
       console.log(err, "获取标签列表失败");

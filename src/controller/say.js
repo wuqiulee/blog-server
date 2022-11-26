@@ -18,8 +18,7 @@ class SayController {
   // 获取说说列表
   async getList(ctx, next) {
     try {
-      const { pageNum, pageSize } = ctx.request.query;
-      const res = await sayService.getList(pageNum, pageSize);
+      const res = await sayService.getList();
       createSuccess(ctx, res);
     } catch (err) {
       console.log(err, "获取说说列表失败");

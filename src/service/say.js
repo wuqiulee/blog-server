@@ -9,10 +9,9 @@ class SayService {
   }
 
   // 获取说说列表
-  async getList(pageNum, pageSize) {
-    const offset = String((pageNum - 1) * pageSize);
-    const statement = `SELECT id, content, createAt AS publishTime FROM say ORDER BY id DESC LIMIT ?, ?;`;
-    const [result] = await connection.execute(statement, [offset, pageSize]);
+  async getList() {
+    const statement = `SELECT id, content, createAt AS publishTime FROM say ORDER BY id DESC;`;
+    const [result] = await connection.execute(statement);
     return {
       result,
       total: result?.length,

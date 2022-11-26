@@ -16,11 +16,13 @@ class CategoryService {
   }
 
   // 获取分类列表
-  async getList(pageNum = "1", pageSize = "100") {
-    const offset = String((pageNum - 1) * pageSize);
-    const statement = `SELECT JSON_ARRAYAGG(JSON_OBJECT('id', category.id, 'name', category.name, 'createTime', category.createAt, 'updateTime', category.updateAt)) AS result, COUNT(*) AS total FROM category LIMIT ?, ?;`;
-    const [result] = await connection.execute(statement, [offset, pageSize]);
-    return result[0];
+  async getList() {
+    const statement = `SELECT id, name, createAt AS createTime, updateAt As updateTime FROM category ORDER BY id DESC;`;
+    const [result] = await connection.execute(statement);
+    return {
+      result,
+      total: result?.length,
+    };
   }
 }
 

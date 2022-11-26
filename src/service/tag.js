@@ -16,11 +16,13 @@ class TagService {
   }
 
   // 获取标签列表
-  async getList(pageNum = "1", pageSize = "100") {
-    const offset = String((pageNum - 1) * pageSize);
-    const statement = `SELECT JSON_ARRAYAGG(JSON_OBJECT('id', tag.id, 'name', tag.name, 'createTime', tag.createAt, 'updateTime', tag.updateAt)) AS result, COUNT(*) AS total FROM tag LIMIT ?, ?;`;
-    const [result] = await connection.execute(statement, [offset, pageSize]);
-    return result[0];
+  async getList() {
+    const statement = `SELECT id, name, createAt AS createTime, updateAt AS updateTime FROM tag ORDER BY id DESC;`;
+    const [result] = await connection.execute(statement);
+    return {
+      result,
+      total: result?.length,
+    };
   }
 }
 

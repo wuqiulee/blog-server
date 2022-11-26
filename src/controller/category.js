@@ -18,8 +18,7 @@ class CategoryController {
   // 获取分类列表
   async getList(ctx, next) {
     try {
-      const { pageNum, pageSize } = ctx.request.query;
-      const res = await categoryService.getList(pageNum, pageSize);
+      const res = await categoryService.getList();
       createSuccess(ctx, res);
     } catch (err) {
       console.log(err, "获取分类列表失败");
