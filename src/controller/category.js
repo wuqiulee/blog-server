@@ -25,6 +25,30 @@ class CategoryController {
       ctx.app.emit("error", err, ctx);
     }
   }
+
+  // 删除分类
+  async remove(ctx, next) {
+    try {
+      const { id } = ctx.request.body;
+      await categoryService.remove(id);
+      createSuccess(ctx);
+    } catch (err) {
+      console.log(err, "删除分类失败");
+      ctx.app.emit("error", err, ctx);
+    }
+  }
+
+  // 更新分类
+  async update(ctx, next) {
+    try {
+      const { name, id } = ctx.request.body;
+      await categoryService.update(name, id);
+      createSuccess(ctx);
+    } catch (err) {
+      console.log(err, "更新分类失败");
+      ctx.app.emit("error", err, ctx);
+    }
+  }
 }
 
 module.exports = new CategoryController();

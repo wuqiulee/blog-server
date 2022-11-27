@@ -25,6 +25,30 @@ class TagController {
       ctx.app.emit("error", err, ctx);
     }
   }
+
+  // 删除标签
+  async remove(ctx, next) {
+    try {
+      const { id } = ctx.request.body;
+      await tagService.remove(id);
+      createSuccess(ctx);
+    } catch (err) {
+      console.log(err, "删除标签失败");
+      ctx.app.emit("error", err, ctx);
+    }
+  }
+
+  // 更新标签
+  async update(ctx, next) {
+    try {
+      const { name, id } = ctx.request.body;
+      await tagService.update(name, id);
+      createSuccess(ctx);
+    } catch (err) {
+      console.log(err, "更新标签失败");
+      ctx.app.emit("error", err, ctx);
+    }
+  }
 }
 
 module.exports = new TagController();

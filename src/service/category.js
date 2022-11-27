@@ -24,6 +24,20 @@ class CategoryService {
       total: result?.length,
     };
   }
+
+  // 删除分类
+  async remove(id) {
+    const statement = `DELETE FROM category WHERE id = ?`;
+    const [result] = await connection.execute(statement, [id]);
+    return result;
+  }
+
+  // 更新分类
+  async update(name, id) {
+    const statement = `UPDATE category SET name = ? WHERE id = ?;`;
+    const [result] = await connection.execute(statement, [name, id]);
+    return result;
+  }
 }
 
 module.exports = new CategoryService();

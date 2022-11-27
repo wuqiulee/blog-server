@@ -24,6 +24,20 @@ class TagService {
       total: result?.length,
     };
   }
+
+  // 删除标签
+  async remove(id) {
+    const statement = `DELETE FROM tag WHERE id = ?`;
+    const [result] = await connection.execute(statement, [id]);
+    return result;
+  }
+
+  // 更新标签
+  async update(name, id) {
+    const statement = `UPDATE tag SET name = ? WHERE id = ?;`;
+    const [result] = await connection.execute(statement, [name, id]);
+    return result;
+  }
 }
 
 module.exports = new TagService();
