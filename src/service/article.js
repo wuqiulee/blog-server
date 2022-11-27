@@ -47,10 +47,6 @@ class ArticleService {
       field === "id" ? "id = ?" : `${field} LIKE CONCAT('%', ?, '%')`
     } ORDER BY id DESC;`;
     const [result] = await connection.execute(statement, [value]);
-    result.forEach((item) => {
-      item.category = item?.category.split(";");
-      item.tag = item?.tag.split(";");
-    });
     return {
       result,
       total: result?.length,
