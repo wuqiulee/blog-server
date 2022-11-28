@@ -20,6 +20,7 @@ class ArticleService {
   async getList() {
     const statement = `SELECT id, title, category, tag, publishStatus, createAt AS createTime, updateAt AS updateTime FROM article ORDER BY id DESC;`;
     const [result] = await connection.execute(statement);
+    result?.forEach((v) => (v.tag = v.tag.split(";")));
     return {
       result,
       total: result?.length,
@@ -47,6 +48,7 @@ class ArticleService {
       field === "id" ? "id = ?" : `${field} LIKE CONCAT('%', ?, '%')`
     } ORDER BY id DESC;`;
     const [result] = await connection.execute(statement, [value]);
+    result?.forEach((v) => (v.tag = v.tag.split(";")));
     return {
       result,
       total: result?.length,

@@ -7,7 +7,6 @@ class ArticleController {
     try {
       const params = ctx.request.body;
       const { user } = ctx.user;
-      params.category = params.category.join(";");
       params.tag = params.tag.join(";");
       await articleService.create(params, user);
       createSuccess(ctx);
@@ -32,6 +31,7 @@ class ArticleController {
   async update(ctx, next) {
     try {
       const params = ctx.request.body;
+      params.tag = params.tag.join(";");
       await articleService.update(params);
       createSuccess(ctx);
     } catch (err) {
