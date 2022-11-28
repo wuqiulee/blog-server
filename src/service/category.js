@@ -17,7 +17,7 @@ class CategoryService {
 
   // 获取分类列表
   async getList() {
-    const statement = `SELECT id, name, createAt AS createTime, updateAt As updateTime FROM category ORDER BY id DESC;`;
+    const statement = `SELECT id, name, createAt AS createTime, updateAt As updateTime, (SELECT COUNT(*) FROM article WHERE category = category.name) AS articleCount FROM category ORDER BY id DESC;`;
     const [result] = await connection.execute(statement);
     return {
       result,
