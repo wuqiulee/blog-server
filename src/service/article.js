@@ -18,7 +18,7 @@ class ArticleService {
 
   // 获取文章列表
   async getList() {
-    const statement = `SELECT id, title, category, tag, publishStatus, createAt AS createTime, updateAt AS updateTime FROM article ORDER BY id DESC;`;
+    const statement = `SELECT id, title, content, category, tag, publishStatus, createAt AS createTime, updateAt AS updateTime FROM article ORDER BY id DESC;`;
     const [result] = await connection.execute(statement);
     result?.forEach((v) => (v.tag = v.tag.split(";")));
     return {
