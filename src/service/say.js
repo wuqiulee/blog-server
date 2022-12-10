@@ -9,12 +9,15 @@ class SayService {
   }
 
   // 获取说说列表
-  async getList() {
-    const statement = `SELECT id, content, createAt AS publishTime FROM say ORDER BY id DESC;`;
-    const [result] = await connection.execute(statement);
+  async getList(pageNum = "0", pageSize = "500") {
+    const offset = String(pageNum * pageSize);
+    const statement = `SELECT id, content, createAt AS publishTime, (SELECT COUNT(*) FROM say) AS total FROM say ORDER BY id DESC LIMIT ?, ?;`;
+    const [result] = await connection.execute(statement, [offset, pageSize]);
     return {
       result,
-      total: result?.length,
+      pageNum: Number(pageNum) + 1,
+      pageSize: Number(pageSize),
+      total: result[0].total,
     };
   }
 
