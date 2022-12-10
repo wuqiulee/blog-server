@@ -17,23 +17,27 @@ class ArticleService {
   }
 
   // 获取文章列表
-  async getList() {
-    const statement = `SELECT id, title, content, category, tag, publishStatus, createAt AS createTime, updateAt AS updateTime FROM article ORDER BY id DESC;`;
-    const [result] = await connection.execute(statement);
+  async getList(pageNum = "0", pageSize = "500") {
+    const offset = String(pageNum * pageSize);
+    const statement = `SELECT id, title, content, category, tag, publishStatus, createAt AS createTime, updateAt AS updateTime, (SELECT COUNT(*) FROM say) AS total FROM article ORDER BY id DESC LIMIT ?, ?;`;
+    const [result] = await connection.execute(statement, [offset, pageSize]);
     result?.forEach((v) => (v.tag = v.tag.split(";")));
     return {
       result,
-      total: result?.length,
+      pageNum: Number(pageNum) + 1,
+      pageSize: Number(pageSize),
+      total: result[0].total,
     };
   }
 
   // 更新文章
   async update(params) {
-    const { title, category, tag, publishStatus, id } = params;
-    const statement = `UPDATE article SET title = ?, category = ?, tag = ?, publishStatus = ? WHERE id = ?;`;
+    const { title, category, content, tag, publishStatus, id } = params;
+    const statement = `UPDATE article SET title = ?, category = ?, content = ?, tag = ?, publishStatus = ? WHERE id = ?;`;
     const [result] = await connection.execute(statement, [
       title,
       category,
+      content,
       tag,
       publishStatus,
       id,

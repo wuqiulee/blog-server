@@ -19,7 +19,8 @@ class ArticleController {
   // 获取文章列表
   async getList(ctx, next) {
     try {
-      const res = await articleService.getList();
+      const { pageNum, pageSize } = ctx.request.query;
+      const res = await articleService.getList(pageNum, pageSize);
       createSuccess(ctx, res);
     } catch (err) {
       console.log(err, "获取文章列表失败");
