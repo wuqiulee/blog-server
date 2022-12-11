@@ -17,7 +17,7 @@ class MessageService {
 
   // 回复留言
   async reply(params) {
-    const { nickName, email, avatar, content, replyId } = params;
+    const { nickName, email, avatar = null, content, replyId } = params;
     const statement = `INSERT INTO message (nickName, email, avatar, content, replyId) VALUES (?, ?, ?, ?, ?);`;
     const result = await connection.execute(statement, [
       nickName,
