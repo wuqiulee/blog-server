@@ -30,15 +30,28 @@ class MessageService {
   }
 
   // 获取留言列表
-  async getList(pageNum = "0", pageSize = "1000") {
-    const offset = String(pageNum * pageSize);
-    const statement = `SELECT id, nickName, avatar, content, replyId, createAt AS createTime FROM message ORDER BY createTime DESC LIMIT ?, ?;`;
-    const [result] = await connection.execute(statement, [offset, pageSize]);
+  async getList(pageNum = 0, pageSize = 1000) {
+    const offset = pageNum * pageSize;
+    const statement = `SELECT id, nickName, avatar, content, replyId, createAt AS createTime FROM message ORDER BY createTime DESC`;
+    const [result] = await connection.execute(statement);
+    const msgArr = result.filter((v) => !v.replyId);
+    const total = msgArr.length;
+    result.forEach((msg) => {
+      if (msg.replyId) {
+        const ret = msgArr.find((v) => v.id === msg.replyId);
+        if (ret.children) {
+          ret.children.unshift(msg);
+        } else {
+          ret.children = [msg];
+        }
+      }
+    });
+    const msgList = msgArr.splice(offset, pageSize);
     return {
-      result,
+      result: msgList,
       pageNum: Number(pageNum) + 1,
       pageSize: Number(pageSize),
-      total: result[0].total,
+      total,
     };
   }
 
