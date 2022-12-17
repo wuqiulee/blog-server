@@ -18,7 +18,8 @@ class SayController {
   // 获取日志列表
   async getList(ctx, next) {
     try {
-      const res = await logService.getList();
+      const { pageNum, pageSize } = ctx.request.query;
+      const res = await logService.getList(pageNum, pageSize);
       createSuccess(ctx, res);
     } catch (err) {
       console.log(err, "获取日志列表失败");

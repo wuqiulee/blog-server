@@ -13,12 +13,15 @@ class LogService {
   }
 
   // 获取日志列表
-  async getList() {
-    const statement = `SELECT id, logDate, content FROM log ORDER BY logDate DESC;`;
-    const [result] = await connection.execute(statement);
+  async getList(pageNum = "0", pageSize = "500") {
+    const offset = String(pageNum * pageSize);
+    const statement = `SELECT id, logDate, content, (SELECT COUNT(*) FROM log) AS total FROM log ORDER BY logDate DESC LIMIT ?, ?;`;
+    const [result] = await connection.execute(statement, [offset, pageSize]);
     return {
       result,
-      total: result?.length,
+      pageNum: Number(pageNum) + 1,
+      pageSize: Number(pageSize),
+      total: result[0].total,
     };
   }
 
